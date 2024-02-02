@@ -5,19 +5,19 @@ import gradio
 import torch
 import datetime
 
-
-model_path = "/app/models/segmind/SSD-1B/"
+model_path = "/root/huggingface/models/segmind/SSD-1B/"
 pipeline = AutoPipelineForText2Image.from_pretrained(
-    model_path, torch_dtype=torch.float16, use_safetensors=True, variant="fp16",
+    model_path, torch_dtype=torch.bfloat16, use_safetensors=True, variant="fp16",
     )
-pipeline.enable_model_cpu_offload()
+# pipeline.enable_model_cpu_offload()
+pipeline.to("cuda:2")
 
-neg_prompt = "distorted or disproportionate creature, missing or extra limbs, poor anatomy or proportions"
+neg_prompt = "distorted or disproportionate creature, missing or extra limbs, poor biological anatomy or proportions"
 
 def text_to_image_fn(prompt):
     curtime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"{curtime}: {prompt}")
-    image = pipeline(prompt=prompt, negative_prompt=neg_prompt).images[0]
+    image = pipeline(prompt=prompt, negative_prompt=neg_prompt, num_inference_steps=125).images[0]
     return image
 
 
