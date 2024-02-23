@@ -8,7 +8,7 @@ import datetime
 
 base_model_path = "/root/huggingface/models/stabilityai/stable-diffusion-xl-base-1.0"
 refiner_model_path = "/root/huggingface/models/stabilityai/stable-diffusion-xl-refiner-1.0"
-device = "cuda:1"
+device = "cuda:2"
 enable_refiner = True
 
 neg_prompt = "distorted or disproportionate creature, missing or extra limbs, poor anatomy or proportions"
